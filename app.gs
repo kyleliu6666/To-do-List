@@ -21,15 +21,30 @@ function todoPush() {
       dataArray.push(value[i][0]);
   }
 
+  // console.log(value);
+  // console.log(dataArray);
+
+  // let dataJSON = {};
+  // dataJSON["startTime"]     = ss.getRange(startTime + thisRow).getValues()[0][0];
+  // dataJSON["employeeID"]    = ss.getRange(employeeID + thisRow).getValues()[0][0];
+
   dataArray.forEach(function(data,index) {
     if(data <= alertDay & data >= 0){
       dayend = ss.getRange(date + (index + 2)).getValues()[0][0];
-      dayend = Utilities.formatDate(dayend, 'Asia/Taipei', 'MM/dd/yyyy');
+      dayend = Utilities.formatDate(dayend, 'Asia/Taipei', 'yyyy/MM/dd');
+      thisweekday = ss.getRange(weekday + (index + 2)).getValues()[0][0];
+      thistime = ss.getRange(time + (index + 2)).getValues()[0][0];
       detail = ss.getRange(mission + (index + 2)).getValues()[0][0];
-      message += ` \n${dayend}\n${detail}\n倒數 ${data}天\n`;
-      console.log(dayend,detail,data);
+      message += ` \n${dayend}(${thisweekday}) ${thistime}\n${detail}\n倒數 ${data}天\n`;
+      console.log(dayend,thisweekday,thistime,detail,data);
     }
 
+    // if(data <0){
+    //   dayend = ss.getRange(date + (index + 2)).getValues()[0][0];
+    //   dayend = Utilities.formatDate(dayend, 'Asia/Taipei', 'MM/dd/yyyy');
+    //   detail = ss.getRange(mission + (index + 2)).getValues()[0][0];
+    //   console.log(dayend,detail,data);
+    // }
       
   });
   message = message.replace(/([\s]*$)/g, ""); //移除最後一個空白字元
@@ -58,7 +73,7 @@ function moveList() {
      let updateList = [];
      for(let i=0; i < rowCount; i++){
        if(sourceValues[i][3] < 0){
-         updateList.push([sourceValues[i][0],'',sourceValues[i][2],sourceValues[i][3],'',''])
+         updateList.push([sourceValues[i][0],sourceValues[i][1],sourceValues[i][2],sourceValues[i][3],sourceValues[i][4],sourceValues[i][5],sourceValues[i][6]])
        }
     }
 
@@ -71,6 +86,13 @@ function moveList() {
     let targetSheet = ss.getSheetByName("complete List");
     let lastRow = targetSheet.getLastRow();
     let targetRange = targetSheet.getRange(lastRow+1, 1, updateList.length, columnCount);
+
+    //測試
+    // let sourceValuesEvolution = sourceValues.map(function(element,index) {
+    //     element.splice(4, 1, "'"+sourceValues[index][4]);
+    //       return element;
+    // });
+    // console.log(sourceValuesEvolution);
 
     targetRange.setValues(updateList);
   }
