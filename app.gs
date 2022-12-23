@@ -72,15 +72,15 @@ function moveList() {
      //過期件
      let updateList = [];
      for(let i=0; i < rowCount; i++){
-       if(sourceValues[i][3] < 0){
-         updateList.push([sourceValues[i][0],sourceValues[i][1],sourceValues[i][2],sourceValues[i][3],sourceValues[i][4],sourceValues[i][5],sourceValues[i][6]])
+       if(sourceValues[i][4] < 0){
+         updateList.push([sourceValues[i][0],sourceValues[i][1],sourceValues[i][2],sourceValues[i][3],sourceValues[i][4],sourceValues[i][5],sourceValues[i][6],sourceValues[i][7]])
        }
     }
 
     //再排序
     updateList.sort(function(a, b) {
         // boolean false == 0; true == 1
-        return a[3] > b[3] ? 1 : -1;
+        return a[4] > b[4] ? 1 : -1;
     });
  
     let targetSheet = ss.getSheetByName("complete List");
